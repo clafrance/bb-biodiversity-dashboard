@@ -15,13 +15,11 @@ function buildMetadata(sample) {
     // Use `.html("") to clear any existing metadata
     panel.html("");
 
-
-    // Use `Object.entries` to add each key and value pair to the panel
-    var ul = panel.append("ul");
+    var div = panel.append("div");
     Object.entries(data).forEach(function([key, value]) {
       keyUpper = key.toUpperCase()
       if (keyUpper != "WFREQ") {
-        ul.append("li").text(`${keyUpper}: ${value}`);
+        div.append("p").text(`${keyUpper}: ${value}`);
       };
     });
 
@@ -73,8 +71,8 @@ function buildCharts(sample) {
 
 
     // @TODO: Build a Pie Chart
-    
-    
+
+
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
   });
@@ -108,3 +106,45 @@ function optionChanged(newSample) {
 
 // Initialize the dashboard
 init();
+
+
+
+
+
+
+
+
+        // function sortObject (objectToSort) {
+        //     // User JSON parse() and stringify() to break references.
+        //     var ids = JSON.parse(JSON.stringify(objectToSort.ids));
+
+        //     // By default array sort is as strings, so for numbers
+        //     // we must supply a compare function.
+        //     ids.sort(function (a, b) {
+        //         if (a > b) {
+        //             return -1;
+        //         }
+        //         if (a < b) {
+        //             return 1;
+        //         }
+        //         return 0;
+        //     });
+            
+        //     // We use this to gather names for the sorted ids.
+        //     var names = [];
+        //     // Iterate over the sorted ids.
+        //     ids.forEach(function (id, index) {
+        //         // Get the index of the id in the object to sort.
+        //         var objIdsIndex = objectToSort.ids.indexOf(id);
+
+        //         // Get the corresponding name for the id.
+        //         var nameAtIndex = objectToSort.names[objIdsIndex];
+
+        //         // Put the name at the same index as the sorted ids.
+        //         names.push(nameAtIndex);                
+        //     });
+        //     // Replace the ids and names of the object to sort with
+        //     // the sorted its and the names we put in the same order.
+        //     objectToSort.ids = ids;
+        //     objectToSort.names = names;
+        // }
