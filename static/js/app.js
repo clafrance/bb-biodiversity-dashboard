@@ -1,18 +1,14 @@
 function buildMetadata(sample) {
 
-  // @TODO: Complete the following function that builds the metadata panel
-
-  // Use `d3.json` to fetch the metadata for a sample
+  // Builds the metadata panel
   let url = `/metadata/${sample}`;
 
   d3.json(url).then(function(data) {
 
-    // console.log(data);
-
-    // Use d3 to select the panel with id of `#sample-metadata`
+    // Select the panel with id of `#sample-metadata`
     var panel = d3.select("#sample-metadata");
 
-    // Use `.html("") to clear any existing metadata
+    // Clear any existing metadata
     panel.html("");
 
     var div = panel.append("div");
@@ -23,24 +19,19 @@ function buildMetadata(sample) {
       };
     });
 
-    // BONUS: Build the Gauge Chart
-    // buildGauge();
+    // Gauge Chart
+
     buildGauge(data.WFREQ);
   });
 }
 
 function buildCharts(sample) {
 
-  // @TODO: Use `d3.json` to fetch the sample data for the plots
+  // Fetch the sample data for the plots
 
   let url = `/samples/${sample}`;
 
   d3.json(url).then (function(sample_data) {
-    // console.log(data);
-    // console.log(data.otu_ids);
-    console.log(sample_data);
-    const sample1 = sample_data;
-    console.log(sample1);
 
     // Bubble Chart using the date from samples/sample route
 
@@ -116,6 +107,7 @@ function buildCharts(sample) {
     var 
     layout = {
       // autosize: false,
+      showlegend: true,
       height: 450,
       width: 450,
       margin: {
@@ -159,7 +151,7 @@ function optionChanged(newSample) {
 
 
 function buildGauge(belly_data) {
-  // Enter a speed between 0 and 180
+
   var level = belly_data;
 
   // Trig to calc meter point
@@ -190,9 +182,9 @@ function buildGauge(belly_data) {
               '4-5', '3-4', '2-3', '1-2', '0-1', ''],
     textinfo: 'text',
     textposition:'inside',
-    marker: {colors:['rgba(141, 179, 131, .5)', 'rgba(131, 165, 129, .5)', 'rgba(106, 134, 98, .5)',
+    marker: {colors:['rgba(106, 134, 98, .5)', 'rgba(131, 165, 129, .5)', 'rgba(141, 179, 131, .5)', 
                      'rgba(181, 196, 145, .5)', 'rgba(200, 211, 150, .5)', 'rgba(216, 216, 170, .5)', 
-                     'rgba(229, 228, 199, .5)', 'rgba(243, 243, 229, .5)',  'rgba(247, 243, 236, .5)', 'rgba(255, 255, 255, 0)']},
+                     'rgba(232, 230, 203, .5)', 'rgba(243, 241, 229, .5)', 'rgba(247, 243, 236, .5)',  'rgba(255, 255, 255, 0)']},
     labels: ['8.1-9', '7.1-8', '6.1-7', '5.1-6', '4.1-5', '3.1-4', '2.1-3', '1.1-2', '0-1', ''],
     hoverinfo: 'label',
     hole: .5,
@@ -227,72 +219,6 @@ function buildGauge(belly_data) {
 
   Plotly.newPlot('gauge', data, layout);
 }
-
-
-// function buildGauge() {
-//   // Enter a speed between 0 and 180
-//   var level = 175;
-
-//   // Trig to calc meter point
-//   var degrees = 180 - level,
-//        radius = .5;
-//   var radians = degrees * Math.PI / 180;
-//   var x = radius * Math.cos(radians);
-//   var y = radius * Math.sin(radians);
-
-//   // Path: may have to change to create a better triangle
-//   var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
-//        pathX = String(x),
-//        space = ' ',
-//        pathY = String(y),
-//        pathEnd = ' Z';
-//   var path = mainPath.concat(pathX,space,pathY,pathEnd);
-
-//   var data = [{ type: 'scatter',
-//      x: [0], y:[0],
-//       marker: {size: 28, color:'850000'},
-//       showlegend: false,
-//       name: 'speed',
-//       text: level,
-//       hoverinfo: 'text+name'},
-//     { values: [50/6, 50/6, 50/6, 50/6, 50/6, 50/6, 50],
-//     rotation: 90,
-//     text: ['TOO FAST!', 'Pretty Fast', 'Fast', 'Average',
-//               'Slow', 'Super Slow', ''],
-//     textinfo: 'text',
-//     textposition:'inside',
-//     marker: {colors:['rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
-//                            'rgba(170, 202, 42, .5)', 'rgba(202, 209, 95, .5)',
-//                            'rgba(210, 206, 145, .5)', 'rgba(232, 226, 202, .5)',
-//                            'rgba(255, 255, 255, 0)']},
-//     labels: ['151-180', '121-150', '91-120', '61-90', '31-60', '0-30', ''],
-//     hoverinfo: 'label',
-//     hole: .5,
-//     type: 'pie',
-//     showlegend: false
-//   }];
-
-//   var layout = {
-//     shapes:[{
-//         type: 'path',
-//         path: path,
-//         fillcolor: '850000',
-//         line: {
-//           color: '850000'
-//         }
-//       }],
-//     title: 'Gauge Speed 0-100',
-//     height: 1000,
-//     width: 1000,
-//     xaxis: {zeroline:false, showticklabels:false,
-//                showgrid: false, range: [-1, 1]},
-//     yaxis: {zeroline:false, showticklabels:false,
-//                showgrid: false, range: [-1, 1]}
-//   };
-
-//   Plotly.newPlot('gauge', data, layout);
-// }
-
 
 // Initialize the dashboard
 init();
