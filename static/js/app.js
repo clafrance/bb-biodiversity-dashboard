@@ -64,8 +64,8 @@ function buildCharts(sample) {
         title: "Sample Values"
       },
       height: 800,
-      width: 600,
-      autosize: true,
+      // width: 2000,
+      // autosize: true,
       showlegend: false
     };
 
