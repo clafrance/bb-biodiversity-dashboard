@@ -63,7 +63,7 @@ function buildCharts(sample) {
         autorange: true,
         title: "Sample Values"
       },
-      height: 800,
+      height: 700,
       // width: 2000,
       // autosize: true,
       showlegend: false
