@@ -1,6 +1,6 @@
 function buildMetadata(sample) {
 
-  // Builds the metadata panel
+  //// Builds the metadata panel
   let url = `/metadata/${sample}`;
 
   d3.json(url).then(function(data) {
@@ -15,33 +15,38 @@ function buildMetadata(sample) {
     Object.entries(data).forEach(function([key, value]) {
       keyUpper = key.toUpperCase()
       if (keyUpper != "WFREQ") {
-        div.append("p").text(`${keyUpper}: ${value}`);
+        if (!value) {
+          div.append("p").text(`${keyUpper}: N/A`);
+        } else {
+          div.append("p").text(`${keyUpper}: ${value}`);
+        }
       };
     });
 
-    // Gauge Chart
-
+    // Call buildGauge function to build Gauge Chart
     buildGauge(data.WFREQ);
   });
 }
 
+
+
+//// Function to build the bubble Chart and Pie Chart
 function buildCharts(sample) {
 
   // Fetch the sample data for the plots
-
   let url = `/samples/${sample}`;
 
+  // Call d3.json function to get data from the url
   d3.json(url).then (function(sample_data) {
 
-    // Bubble Chart using the date from samples/sample route
-
+    // Create Bubble Chart using the date from samples/sample route
     var trace1 = {
       x: sample_data.otu_ids,
       y: sample_data.sample_values,
       type: "scatter",
       mode: "markers",
       text: sample_data.otu_labels,
-      // hoverinfo:"x+y",
+      hoverinfo: "x+y",
       marker: {
         size: sample_data.sample_values,
         color: sample_data.otu_ids
@@ -58,29 +63,29 @@ function buildCharts(sample) {
         autorange: true,
         title: "Sample Values"
       },
-
+      height: 800,
+      width: 600,
+      autosize: true,
       showlegend: false
     };
 
     Plotly.newPlot("bubble", data, layout);
 
 
-    // Pie Chart
-
-    // Sort the sample values in descending order, and get top 10
-
+    // Create Pie Chart  using the date from samples/sample route
+    // Create arrays to hold the data
     var sample_values = sample_data.sample_values.map(value => value);
     var otu_ids = sample_data.otu_ids.map(value => value);
     var otu_labels = sample_data.otu_labels.map(value => value);
 
+    // Sort the sample values in descending order, and get top 10
     var sample_values_sorted = sample_data.sample_values.map(value => value);
-    var otu_ids_sorted = [];
-    var otu_labels_sorted = [];
-
     sample_values_sorted = sample_values_sorted.sort(function compareFunction(firstNum, secondNum) {
       return secondNum - firstNum;
     }).slice(0, 10);
 
+    var otu_ids_sorted = [];
+    var otu_labels_sorted = [];
 
     // Get the otu_ids and otu_labels for the top 10 sample values
     for (var i=0; i<sample_values_sorted.length; i++) {
@@ -97,9 +102,11 @@ function buildCharts(sample) {
       otu_labels.splice(index_of_sample_value, 1 );
     };
 
+    // Build the pie chart
     data = [{
       values: sample_values_sorted,
       labels: otu_ids_sorted,
+      hoverinfo: 'label+percent+value',
       // text: otu_labels_sorted,
       type: "pie"
     }];
@@ -119,11 +126,15 @@ function buildCharts(sample) {
       }
     };
 
-    Plotly.plot("pie", data, layout);
+    Plotly.newPlot("pie", data, layout);
   });
 }
 
+
+
+// Function to initilize the page
 function init() {
+
   // Grab a reference to the dropdown select element
   var selector = d3.select("#selDataset");
 
@@ -143,13 +154,15 @@ function init() {
   });
 }
 
+
+// Function to build new charts when select a sample value
 function optionChanged(newSample) {
-  // Fetch new data each time a new sample is selected
   buildCharts(newSample);
   buildMetadata(newSample);
 }
 
 
+// Function to create the gauge chart
 function buildGauge(belly_data) {
 
   var level = belly_data;
@@ -220,7 +233,8 @@ function buildGauge(belly_data) {
   Plotly.newPlot('gauge', data, layout);
 }
 
-// Initialize the dashboard
+
+// Initialize the dashboard by calling the init function
 init();
 
 
