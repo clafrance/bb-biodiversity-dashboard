@@ -175,7 +175,7 @@ function buildGauge(belly_data) {
   var y = radius * Math.sin(radians);
 
   // Path: may have to change to create a better triangle
-  var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
+  var mainPath = 'M -0.0 -0.025 L 0.0 0.025 L ',
        pathX = String(x),
        space = ' ',
        pathY = String(y),
@@ -186,23 +186,24 @@ function buildGauge(belly_data) {
      x: [0], y:[0],
       marker: {size: 28, color:'850000'},
       showlegend: false,
-      name: 'speed',
+      name: 'frequency',
       text: level,
       hoverinfo: 'text+name'},
-    { values: [20/9, 20/9, 20/9, 20/9, 20/9, 20/9, 20/9, 20/9, 20/9, 20],
-    rotation: 90,
-    text: ['8-9', '7-8', '6-7', '5-6',
+      { values: [2, 2, 2, 2, 2, 2, 2, 2, 2, 18],
+    // { values: [50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50],
+        rotation: 90,
+        text: ['8-9', '7-8', '6-7', '5-6',
               '4-5', '3-4', '2-3', '1-2', '0-1', ''],
-    textinfo: 'text',
-    textposition:'inside',
-    marker: {colors:['rgba(106, 134, 98, .5)', 'rgba(131, 165, 129, .5)', 'rgba(141, 179, 131, .5)', 
+        textinfo: 'text',
+        textposition:'inside',
+        marker: {colors:['rgba(106, 134, 98, .5)', 'rgba(131, 155, 129, .5)', 'rgba(141, 179, 131, .5)', 
                      'rgba(181, 196, 145, .5)', 'rgba(200, 211, 150, .5)', 'rgba(216, 216, 170, .5)', 
-                     'rgba(232, 230, 203, .5)', 'rgba(243, 241, 229, .5)', 'rgba(247, 243, 236, .5)',  'rgba(255, 255, 255, 0)']},
-    labels: ['8.1-9', '7.1-8', '6.1-7', '5.1-6', '4.1-5', '3.1-4', '2.1-3', '1.1-2', '0-1', ''],
-    hoverinfo: 'label',
-    hole: .5,
-    type: 'pie',
-    showlegend: false
+                     'rgba(230, 230, 203, .5)', 'rgba(240, 237, 224, .5)', 'rgba(247, 243, 236, .5)', 'rgba(255, 255, 255, 0)'] },
+    // labels: ['8.1-9', '7.1-8', '6.1-7', '5.1-6', '4.1-5', '3.1-4', '2.1-3', '1-2', '0-1', ''],
+      hoverinfo: 'label',
+      hole: .5,
+      type: 'pie',
+      showlegend: false
   }];
 
   var layout = {
@@ -225,9 +226,9 @@ function buildGauge(belly_data) {
       pad: 4
     },
     xaxis: {zeroline:false, showticklabels:false,
-               showgrid: false, range: [-1, 1]},
+             showgrid: false, range: [-1, 1]},
     yaxis: {zeroline:false, showticklabels:false,
-               showgrid: false, range: [-1, 1]}
+             showgrid: false, range: [-1, 1]}
   };
 
   Plotly.newPlot('gauge', data, layout);
